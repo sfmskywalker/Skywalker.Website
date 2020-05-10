@@ -1,0 +1,17 @@
+{% assign ContentItem = Model.ContentItem %}
+{% assign ImagePath = ContentItem.Content.BlogPost.MainImage.Paths.first %}
+{% assign PostPath = ContentItem | display_url %}
+{% assign CardBlock = "BlogPost__CardBlock" | shape_new | shape_properties: ContentItem: ContentItem %}
+
+<!-- begin post -->
+<div class="card">
+    <a href="{{ PostPath }}">
+        {% if ImagePath == nil %}
+            <img class="img-fluid" src="/TheMediumTheme/assets/img/demopic/11.jpg" alt="">
+        {% else %}
+            <img class="img-fluid" src="{{ ImagePath | asset_url }}" alt="">
+        {% endif %}
+    </a>
+    {{ CardBlock | shape_render }}
+</div>
+<!-- end post -->

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/TheMediumTheme/assets/img/favicon.ico">
+    <title>{{ "PageTitle" | shape_new | shape_stringify }}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/TheMediumTheme/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/TheMediumTheme/assets/css/mediumish.css" rel="stylesheet">
+    {% script src:"/OrchardCore.Menu/Scripts/activate-links.min.js", debug_src:"/OrchardCore.Menu/Scripts/activate-links.js", at:"Foot" %}
+</head>
+<body>
+
+{% shape "Menu", alias: "alias:main-menu", cache_id: "main-menu", cache_tag: "alias:main-menu" %}
+{% render_section "Content" %}
+
+<div class="container">
+    <!-- Begin Footer
+      ================================================== -->
+    <div class="footer">
+        <p class="float-left">
+            Copyright &copy; {{ "now" | local | date: "%Y" }} {{ Site.SiteName }}
+        </p>
+        <p class="float-right">
+            Mediumish Theme by <a target="_blank" href="https://www.wowthemes.net">WowThemes.net</a>
+        </p>
+        <div class="clearfix">
+        </div>
+    </div>
+    <!-- End Footer
+    ================================================== -->
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/TheMediumTheme/assets/js/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="/TheMediumTheme/assets/js/bootstrap.min.js"></script>
+<script src="/TheMediumTheme/assets/js/mediumish.js"></script>
+{% resources type: "FootScript" %}
+</body>
+</html>

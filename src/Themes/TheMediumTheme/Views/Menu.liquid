@@ -1,0 +1,23 @@
+<!-- Begin Nav
+================================================== -->
+<nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container">
+        {{  "SiteLogo" | shape_new | shape_render }}
+
+        <div class="collapse navbar-collapse" id="mainNavigation">
+            <!-- Begin Menu -->
+            <ul class="navbar-nav ml-auto">
+                {% for item in Model.Items %}
+                    {{ item | shape_render }}
+                {% endfor %}
+            </ul>
+            <!-- End Menu -->
+            {% shape "Search__Input", cache_id:"search-input", cache_fixed_duration: "00:00:01" %}
+        </div>
+    </div>
+</nav>
+<!-- End Nav
+================================================== -->

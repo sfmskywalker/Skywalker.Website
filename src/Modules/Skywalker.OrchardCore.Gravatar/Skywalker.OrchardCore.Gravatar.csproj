@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <Nullable>enable</Nullable>
+        <RazorLangVersion>3.0</RazorLangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="GravatarHelper.NetStandard" Version="1.0.0" />
+        <PackageReference Include="OrchardCore.Liquid" Version="1.0.0-rc1-13142" />
+        <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13142" />
+        <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-12821" />
+    </ItemGroup>
+
+</Project>

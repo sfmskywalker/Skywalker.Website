@@ -1,0 +1,23 @@
+{% assign ContentItem = Model.ContentItem %}
+{% assign ImagePath = ContentItem.Content.BlogPost.MainImage.Paths.first %}
+{% assign PostPath = ContentItem | display_url %}
+{% assign CardBlock = "BlogPost__CardBlock" | shape_new | shape_properties: ContentItem: ContentItem %}
+
+<!-- begin post -->
+<div class="card">
+    <div class="row">
+        <div class="col-md-5 wrapthumbnail">
+            <a href="{{ PostPath }}">
+                {% if ImagePath == nil %}
+                    <div class="thumbnail" style="background-image:url(/TheMediumTheme/assets/img/demopic/1.jpg);"></div>
+                {% else %}
+                    <div class="thumbnail" style="background-image:url({{ ImagePath | asset_url }});"></div>
+                {% endif %}
+            </a>
+        </div>
+        <div class="col-md-7">
+            {{ CardBlock | shape_render }}
+        </div>
+    </div>
+</div>
+<!-- end post -->

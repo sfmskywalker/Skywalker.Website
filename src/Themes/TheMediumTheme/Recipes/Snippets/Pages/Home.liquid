@@ -1,0 +1,53 @@
+{% assign User = "admin" | user %}
+{% assign Author = User | author %}
+
+<!-- Begin Site Title
+================================================== -->
+<div class="container">
+    <div class="mainheading">
+        <h1 class="sitetitle">{{ Site.SiteName }}</h1>
+        <p class="lead">
+            {{ Author.Bio }}
+        </p>
+    </div>
+    <!-- End Site Title
+    ================================================== -->
+
+    <!-- Begin Featured
+    ================================================== -->
+    <section class="featured-posts">
+        <div class="section-title">
+            <h2><span>Featured</span></h2>
+        </div>
+        <div class="card-columns listfeaturedtag">
+
+            {% assign featuredBlogPosts = Queries.FeaturedBlogPosts | query %}
+            {% for item in featuredBlogPosts %}
+                {{ item | shape_build_display: "Summary" | shape_render }}
+            {% endfor %}
+
+        </div>
+    </section>
+    <!-- End Featured
+    ================================================== -->
+
+    <!-- Begin List Posts
+    ================================================== -->
+    <section class="recent-posts">
+        <div class="section-title">
+            <h2><span>All Stories</span></h2>
+        </div>
+        <div class="card-columns listrecent">
+
+            {% assign recentBlogPosts = Queries.RecentBlogPosts | query %}
+            {% for item in recentBlogPosts %}
+                {{ item | shape_build_display: "Card" | shape_render }}
+            {% endfor %}
+
+        </div>
+    </section>
+    <!-- End List Posts
+    ================================================== -->
+
+</div>
+<!-- /.container -->

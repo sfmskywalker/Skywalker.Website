@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GravatarHelper.NetStandard" Version="1.0.0" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13104" />
+    <PackageReference Include="OrchardCore.ResourceManagement.Abstractions" Version="1.0.0-rc1-13104" />
+    <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-13104" />
+    <PackageReference Include="OrchardCore.Menu" Version="1.0.0-rc1-13104" />
+    <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-13142" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\SiteLogo.liquid">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\BlogPost-CardBlock.liquid">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Recipes\Media\Site" />
+  </ItemGroup>
+
+</Project>

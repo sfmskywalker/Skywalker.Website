@@ -1,0 +1,24 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "Content.ContentItem.Author": "{{ Request.Route.userName }}"
+          }
+        },
+        {
+          "term": {
+            "Content.ContentItem.ContentType": "BlogPost"
+          }
+        }
+      ]
+    }
+  },
+  "sort": {
+    "Content.ContentItem.CreatedUtc": {
+      "order": "desc",
+      "type": "double"
+    }
+  }
+}

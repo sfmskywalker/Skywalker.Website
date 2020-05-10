@@ -1,0 +1,22 @@
+<div class="mainheading">
+    <h1 class="sitetitle">Search Results</h1>
+    {% if Model.ContentItems != null and Model.ContentItems.size > 0 %}
+        {% if Model.ContentItems != null and Model.ContentItems.size == 1 %}
+            <p class="lead">{{ Model.ContentItems.size }} result found</p>
+        {% else %}
+            <p class="lead">{{ Model.ContentItems.size }} results found</p>
+        {% endif %}
+    {% else %}
+        <p class="lead alert alert-warning">{{ "There are no such results." | t }}</p>
+    {% endif %}
+</div>
+
+{% if Model.ContentItems != null and Model.ContentItems.size > 0 %}
+    <section class="featured-posts">
+        <div class="listfeaturedtag">
+            {% for item in Model.ContentItems %}
+                {{ item | shape_build_display: "Summary" | shape_render }}
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}

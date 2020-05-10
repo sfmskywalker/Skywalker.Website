@@ -1,0 +1,11 @@
+{% assign SiteLogo = Site.Properties.MediumThemeSettings.MediumThemeSettings.SiteLogo.Paths.first %}
+
+<!-- Begin Logo -->
+<a class="navbar-brand" href="/">
+    {% if SiteLogo | blank %}
+        <img src="/TheMediumTheme/assets/img/logo.jpg" class="rounded-circle" alt="logo">
+    {% else %}
+        <img src="{{ SiteLogo | asset_url }}" class="rounded-circle" alt="logo">
+    {% endif %}
+</a>
+<!-- End Logo -->

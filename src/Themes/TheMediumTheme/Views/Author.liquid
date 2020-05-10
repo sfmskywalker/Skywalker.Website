@@ -1,0 +1,63 @@
+{% assign User = Model.User %}
+{% assign Author = Model.Author %}
+{% assign AuthorName = User | user_author_name | capitalize %}
+
+<!-- Begin Top Author Page
+================================================== -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="mainheading">
+                <div class="row post-top-meta authorpage">
+                    <div class="col-md-10 col-xs-12">
+                        <h1>{{ AuthorName }}</h1>
+                        <span class="author-description">{{ Author.Bio }}</span>
+                        <div class="sociallinks">
+                            {% if Author.FacebookUrl | not_blank %}
+                                <a target="_blank" href="{{ Author.FacebookUrl }}"><i class="fab fa-facebook-f"></i></a>
+                                <span class="dot"></span>
+                            {% endif %}
+                            {% if Author.TwitterUrl | not_blank %}
+                                <a target="_blank" href="{{ Author.TwitterUrl }}"><i class="fab fa-twitter"></i></a>
+                                <span class="dot"></span>
+                            {% endif %}
+                            {% if Author.LinkedInUrl | not_blank %}
+                                <a target="_blank" href="{{ Author.LinkedInUrl }}"><i class="fab fa-linkedin-in"></i></a>
+                                <span class="dot"></span>
+                            {% endif %}
+                            <a target="_blank" href="mailto:{{ User.Email }}"><i class="far fa-envelope"></i></a>
+                        </div>
+                        {% if Author.TwitterUrl | not_blank %}
+                            <a target="_blank" href="{{ Author.TwitterUrl }}" class="btn follow">Follow</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2 col-xs-12">
+                        <img class="author-thumb" src="{{ User.Email | gravatar: size: 250, type: "MM", rating: "X" }}" alt="{{ AuthorName }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Top Author Meta
+================================================== -->
+
+<!-- Begin Author Posts
+================================================== -->
+<div class="graybg authorpage">
+    <div class="container">
+        <div class="card-columns listrecent listrelated">
+
+            {% assign posts = Queries.UserBlogPosts | query %}
+            {% for post in posts %}
+                <div class="authorpostbox">
+                    {{ post | shape_build_display: "Card" | shape_render }}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+<!-- End Author Posts
+================================================== -->

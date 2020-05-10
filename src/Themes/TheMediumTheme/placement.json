@@ -1,0 +1,16 @@
+﻿{
+  "TitlePart": [
+    {
+      "contentType": ["BlogPost"],
+      "displayType": "Detail",
+      "place": "-"
+    }
+  ],
+  "TaxonomyField": [
+    {
+      "contentType": ["BlogPost"],
+      "displayType": "Detail",
+      "place": "-"
+    }
+  ]
+}

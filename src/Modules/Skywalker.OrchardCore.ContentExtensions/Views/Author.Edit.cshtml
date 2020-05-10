@@ -1,0 +1,55 @@
+﻿@model Author
+
+<section>
+    <legend>Author</legend>
+    <div class="form-group">
+        <label asp-for="Name">@T["Name"]</label>
+        <input asp-for="Name" class="form-control col-xl-6 col-lg-8" type="text"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TagLine">@T["Tag Line"]</label>
+        <input asp-for="TagLine" class="form-control" type="text"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Bio">@T["Bio"]</label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FacebookUrl">@T["Facebook Url"]</label>
+        <div class="input-group row col-md-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fab fa-facebook"></i>
+                </span>
+            </div>
+            <input asp-for="FacebookUrl" class="form-control" type="text"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TwitterUrl">@T["Twitter Url"]</label>
+        <div class="input-group row col-md-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fab fa-twitter"></i>
+                </span>
+            </div>
+            <input asp-for="TwitterUrl" class="form-control" type="text"/>
+        </div>
+    </div>
+    
+    <div class="form-group">
+            <label asp-for="LinkedInUrl">@T["LinkedIn Url"]</label>
+            <div class="input-group row col-md-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fab fa-linked-in  fab fa-linkedin-in"></i>
+                    </span>
+                </div>
+                <input asp-for="LinkedInUrl" class="form-control" type="text"/>
+            </div>
+        </div>
+</section>

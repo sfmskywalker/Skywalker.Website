@@ -1,0 +1,1284 @@
+{
+  "name": "Medium",
+  "displayName": "Medium",
+  "description": "Ready to use blogging website based on Mediumish.",
+  "author": "Sipke Schoorstra",
+  "website": "https://www.sipkeschoorstra.com",
+  "version": "1.0.0",
+  "issetuprecipe": true,
+  "categories": [
+    "default"
+  ],
+  "tags": [
+    "medium",
+    "blog"
+  ],
+  // The variables are evaluated the first time they are accessed, and reused across steps
+  "variables": {
+    "homeContentItemId": "[js:uuid()]",
+    "blogContentItemId": "[js:uuid()]",
+    "menuContentItemId": "[js:uuid()]",
+    "tagsContentItemId": "[js:uuid()]",
+    "orchardTagContentItemId": "[js:uuid()]",
+    "luceneTagContentItemId": "[js:uuid()]",
+    "graphQLTagContentItemId": "[js:uuid()]",
+    "summerTagContentItemId": "[js:uuid()]",
+    "autumnTagContentItemId": "[js:uuid()]",
+    "foodTagContentItemId": "[js:uuid()]"
+  },
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        // SaaS
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Admin",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Roles",
+        "OrchardCore.Settings",
+        "OrchardCore.Themes",
+        "OrchardCore.Users",
+        // Content Management
+        "OrchardCore.Alias",
+        "OrchardCore.AdminMenu",
+        "OrchardCore.Autoroute",
+        "OrchardCore.Html",
+        "OrchardCore.ContentFields",
+        "OrchardCore.Contents",
+        "OrchardCore.Contents.FileContentDefinition",
+        "OrchardCore.ContentTypes",
+        "OrchardCore.CustomSettings",
+        "OrchardCore.Deployment",
+        "OrchardCore.Deployment.Remote",
+        "OrchardCore.Feeds",
+        "OrchardCore.Lists",
+        "OrchardCore.Liquid",
+        "OrchardCore.Lucene",
+        "OrchardCore.Markdown",
+        "OrchardCore.Media",
+        "OrchardCore.Menu",
+        "OrchardCore.Queries",
+        "OrchardCore.Title",
+        "OrchardCore.Templates",
+        // Skywalker
+        "Skywalker.OrchardCore.ContentExtensions",
+        "Skywalker.OrchardCore.Gravatar",
+        // Themes
+        "TheMediumTheme",
+        "TheAdmin",
+        "SafeMode"
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "TheAdmin",
+      "site": "TheMediumTheme"
+    },
+    {
+      "name": "settings",
+      "HomeRoute": {
+        "Action": "Display",
+        "Controller": "Item",
+        "Area": "OrchardCore.Contents",
+        "ContentItemId": "[js: variables('homeContentItemId')]"
+      }
+    },
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "LiquidPage",
+          "DisplayName": "Liquid Page",
+          "Hidden": false,
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LiquidPage",
+              "Name": "LiquidPage",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "LiquidPart",
+              "Name": "LiquidPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Page",
+          "DisplayName": "Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Page",
+              "Name": "Page",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                }
+              }
+            },
+            {
+              "PartName": "FlowPart",
+              "Name": "FlowPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Container",
+          "DisplayName": "Container",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Container",
+              "Name": "Container",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "FlowPart",
+              "Name": "FlowPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Blog",
+          "DisplayName": "Blog",
+          "Hidden": false,
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                }
+              }
+            },
+            {
+              "PartName": "Blog",
+              "Name": "Blog",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "ListPart",
+              "Name": "ListPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "4"
+                },
+                "ListPartSettings": {
+                  "PageSize": 10,
+                  "ContainedContentTypes": [
+                    "BlogPost"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlogPost",
+          "DisplayName": "Blog Post",
+          "Hidden": false,
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | container | display_text | slugify }}/{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": false
+                }
+              }
+            },
+            {
+              "PartName": "BlogPost",
+              "Name": "BlogPost",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "MarkdownBodyPart",
+              "Name": "MarkdownBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Editor": "Wysiwyg",
+                  "Position": "3"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Tag",
+          "DisplayName": "Tag",
+          "Settings": {
+            "ContentTypeSettings": {},
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Tag",
+              "Name": "Tag",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ManageContainedItemRoutes": true
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "ContentParts": [
+        {
+          "Name": "Blog",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Banner Image",
+                  "Position": "0"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "MediaFieldSettings": {
+                  "Required": true,
+                  "Multiple": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlogPost",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Subtitle",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Subtitle",
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "FieldName": "MediaField",
+              "Name": "MainImage",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Main Image",
+                  "Position": "1"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "MediaFieldSettings": {
+                  "Required": true,
+                  "Multiple": false
+                }
+              }
+            },
+            {
+              "FieldName": "TaxonomyField",
+              "Name": "Tags",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Tags",
+                  "Editor": "Tags",
+                  "DisplayMode": "Tags",
+                  "Position": "2"
+                },
+                "ContentIndexSettings": {},
+                "TaxonomyFieldSettings": {
+                  "Required": true,
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                },
+                "TaxonomyFieldTagsEditorSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "MenuItem",
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Link",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Link",
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "media",
+      "Files": [
+        {
+          "SourcePath": "Media/Blog/1.jpg",
+          "TargetPath": "Blog/1.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/2.jpg",
+          "TargetPath": "Blog/2.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/3.jpg",
+          "TargetPath": "Blog/3.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/4.jpg",
+          "TargetPath": "Blog/4.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/5.jpg",
+          "TargetPath": "Blog/5.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/6.jpg",
+          "TargetPath": "Blog/6.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/7.jpg",
+          "TargetPath": "Blog/7.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/8.jpg",
+          "TargetPath": "Blog/8.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/9.jpg",
+          "TargetPath": "Blog/9.jpg"
+        },
+        {
+          "SourcePath": "Media/Blog/10.jpg",
+          "TargetPath": "Blog/10.jpg"
+        },
+        {
+          "SourcePath": "Media/Site/logo.png",
+          "TargetPath": "Site/logo.png"
+        }
+      ]
+    },
+    {
+      // Create the indices before the content items so they are indexed automatically.
+      "name": "lucene-index",
+      "Indices": [
+        {
+          "Search": {
+            "AnalyzerName": "standardanalyzer",
+            "IndexLatest": false,
+            "IndexedContentTypes": [
+              "Blog",
+              "BlogPost",
+              "Container",
+              "LinkMenuItem",
+              "LiquidPage",
+              "Menu",
+              "Page"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      // Create the search settings.
+      "name": "Settings",
+      "LuceneSettings": {
+        "SearchIndex": "Search",
+        "DefaultSearchFields": [
+          "Content.ContentItem.FullText"
+        ]
+      }
+    },
+    {
+      // Create the search index permissions.
+      "name": "Roles",
+      "Roles": [
+        {
+          "Name": "Anonymous",
+          "Description": "Anonymous role",
+          "Permissions": [
+            "ViewContent",
+            "QueryLuceneSearchIndex"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "[js: variables('tagsContentItemId')]",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Tags",
+          "Latest": true,
+          "Published": true,
+          "TitlePart": {
+            "Title": "Tags"
+          },
+          "AliasPart": {
+            "Alias": "tags"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "[js: variables('orchardTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "Orchard",
+                "TitlePart": {
+                  "Title": "Orchard"
+                },
+                "AutoroutePart": {
+                  "Path": "orchard"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              },
+              {
+                "ContentItemId": "[js: variables('graphQLTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "GraphQL",
+                "TitlePart": {
+                  "Title": "GraphQL"
+                },
+                "AutoroutePart": {
+                  "Path": "graphql"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              },
+              {
+                "ContentItemId": "[js: variables('luceneTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "Lucene",
+                "TitlePart": {
+                  "Title": "Lucene"
+                },
+                "AutoroutePart": {
+                  "Path": "lucene"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              },
+              {
+                "ContentItemId": "[js: variables('summerTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "Summer",
+                "TitlePart": {
+                  "Title": "Summer"
+                },
+                "AutoroutePart": {
+                  "Path": "summer"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              },
+              {
+                "ContentItemId": "[js: variables('autumnTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "Autumn",
+                "TitlePart": {
+                  "Title": "Autumn"
+                },
+                "AutoroutePart": {
+                  "Path": "autumn"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              },
+              {
+                "ContentItemId": "[js: variables('foodTagContentItemId')]",
+                "ContentType": "Tag",
+                "DisplayText": "Food",
+                "TitlePart": {
+                  "Title": "Food"
+                },
+                "AutoroutePart": {
+                  "Path": "food"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]"
+                }
+              }
+            ],
+            "TermContentType": "Tag"
+          },
+          "AutoroutePart": {
+            "Path": "tags",
+            "RouteContainedItems": true
+          }
+        },
+        {
+          "ContentItemId": "[js: variables('blogContentItemId')]",
+          "ContentType": "Blog",
+          "DisplayText": "Blog",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Blog"
+          },
+          "AutoroutePart": {
+            "Path": "blog"
+          },
+          "ListPart": {
+            "FeedProxyUrl": null,
+            "FeedItemsCount": 20
+          }
+        },
+        {
+          "ContentItemId": "[js: variables('homeContentItemId')]",
+          "ContentType": "LiquidPage",
+          "DisplayText": "Home",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "AutoroutePart": {
+            "Path": "home",
+            "SetHomepage": true
+          },
+          "LiquidPart": {
+            "Liquid": "[file:text('Snippets/Pages/Home.liquid')]"
+          },
+          "TitlePart": {
+            "Title": "Home"
+          }
+        },
+        {
+          "ContentItemId": "[js: variables('menuContentItemId')]",
+          "ContentType": "Menu",
+          "DisplayText": "Main Menu",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "MenuPart": {},
+          "TitlePart": {
+            "Title": "Main Menu"
+          },
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "LinkMenuItemPart": {
+                  "Name": "Blog",
+                  "Url": "~/"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "LinkMenuItemPart": {
+                  "Name": "About",
+                  "Url": "[js: '~/author/' + parameters('AdminUsername')]"
+                }
+              }
+            ]
+          },
+          "AliasPart": {
+            "Alias": "main-menu"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "18 Things You Should Learn Before Moving Into a New Home",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "18 Things You Should Learn Before Moving Into a New Home"
+          },
+          "AutoroutePart": {
+            "Path": "blog/18-things-you-should-learn-before-moving-into-a-new-home"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "Holy grail funding non-disclosure agreement advisor ramen bootstrapping ecosystem."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/10.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Orchard",
+                "GraphQL",
+                "Lucene"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('orchardTagContentItemId')]",
+                "[js: variables('graphQLTagContentItemId')]",
+                "[js: variables('luceneTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "Little red dress and a perfect summer",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Little red dress and a perfect summer"
+          },
+          "AutoroutePart": {
+            "Path": "blog/little-red-dress-and-a-perfect-summer"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/7.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Summer"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('summerTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "We're living some strange times",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "We're living some strange times"
+          },
+          "AutoroutePart": {
+            "Path": "blog/we-re-living-some-strange-times"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/1.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Food"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('foodTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "Dreaming of Las Vegas Crazyness",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Dreaming of Las Vegas Crazyness"
+          },
+          "AutoroutePart": {
+            "Path": "blog/dreaming-of-las-vegas-crazyness"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/3.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Summer"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('summerTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "Autumn doesn't have to be nostalgic, you know?",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Autumn doesn't have to be nostalgic, you know?"
+          },
+          "AutoroutePart": {
+            "Path": "blog/autumn-doesn-t-have-to-be-nostalgic-you-know"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/5.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Lucene",
+                "Autumn"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('luceneTagContentItemId')]",
+                "[js: variables('autumnTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "Thinking outside the box can help you prosper",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Thinking outside the box can help you prosper"
+          },
+          "AutoroutePart": {
+            "Path": "blog/thinking-outside-the-box-can-help-you-prosper"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/8.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Orchard",
+                "GraphQL"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('orchardTagContentItemId')]",
+                "[js: variables('graphQLTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "San Francisco at its best view in all seasons",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "San Francisco at its best view in all seasons"
+          },
+          "AutoroutePart": {
+            "Path": "blog/san-francisco-at-its-best-view-in-all-seasons"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/4.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Summer",
+                "Autumn"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('summerTagContentItemId')]",
+                "[js: variables('autumnTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "10 Things you should know about choosing your house",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "10 Things you should know about choosing your house"
+          },
+          "AutoroutePart": {
+            "Path": "blog/10-things-you-should-know-about-choosing-your-house"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/9.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Orchard"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('orchardTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "Best galleries in the world with photos",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Best galleries in the world with photos"
+          },
+          "AutoroutePart": {
+            "Path": "blog/best-galleries-in-the-world-with-photos"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/6.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "GraphQL",
+                "Lucene"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('graphQLTagContentItemId')]",
+                "[js: variables('luceneTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        },
+        {
+          "ContentItemId": "[js: uuid()]",
+          "ContentType": "BlogPost",
+          "DisplayText": "The beauty of this world is in your heart",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "The beauty of this world is in your heart"
+          },
+          "AutoroutePart": {
+            "Path": "blog/the-beauty-of-this-world-is-in-your-heart"
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+            },
+            "MainImage": {
+              "Paths": [
+                "blog/2.jpg"
+              ]
+            },
+            "Tags": {
+              "TagNames": [
+                "Orchard",
+                "GraphQL",
+                "Summer",
+                "Food",
+                "Autumn"
+              ],
+              "TaxonomyContentItemId": "[js: variables('tagsContentItemId')]",
+              "TermContentItemIds": [
+                "[js: variables('summerTagContentItemId')]",
+                "[js: variables('autumnTagContentItemId')]",
+                "[js: variables('orchardTagContentItemId')]",
+                "[js: variables('foodTagContentItemId')]",
+                "[js: variables('graphQLTagContentItemId')]"
+              ]
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": "[file:text('Snippets/Posts/Post-1.liquid')]"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "[js: variables('blogContentItemId')]"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Queries",
+      "Queries": [
+        {
+          "Index": "Search",
+          "Template": "[file:text('Snippets/Queries/FeaturedBlogPosts.json')]",
+          "ReturnContentItems": true,
+          "Name": "FeaturedBlogPosts",
+          "Source": "Lucene",
+          "Schema": "[file:text('Snippets/Queries/BlogPosts.schema.json')]"
+        },
+        {
+          "Index": "Search",
+          "Template": "[file:text('Snippets/Queries/RecentBlogPosts.json')]",
+          "ReturnContentItems": true,
+          "Name": "RecentBlogPosts",
+          "Source": "Lucene",
+          "Schema": "[file:text('Snippets/Queries/BlogPosts.schema.json')]"
+        },
+        {
+          "Index": "Search",
+          "Template": "[file:text('Snippets/Queries/UserBlogPosts.json')]",
+          "ReturnContentItems": true,
+          "Name": "UserBlogPosts",
+          "Source": "Lucene",
+          "Schema": "[file:text('Snippets/Queries/BlogPosts.schema.json')]"
+        }
+      ]
+    },
+    {
+      "name": "AdminMenu",
+      "data": [
+        {
+          "Id": "[js: uuid()]",
+          "Name": "Admin menu from medium recipe",
+          "Enabled": true,
+          "MenuItems": [
+            {
+              "$type": "OrchardCore.AdminMenu.AdminNodes.LinkAdminNode, OrchardCore.AdminMenu",
+              "LinkText": "Blog",
+              "LinkUrl": "[js: 'Admin/Contents/ContentItems/' +  variables('blogContentItemId') + '/Display']",
+              "IconClass": "fas fa-rss",
+              "UniqueId": "[js: uuid()]",
+              "Enabled": true,
+              "LinkToFirstChild": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "custom-settings",
+      "MediumThemeSettings": {
+        "ContentItemId": "[js: uuid()]",
+        "ContentType": "MediumThemeSettings",
+        "Author": "[js: parameters('AdminUsername')]",
+        "MediumThemeSettings": {
+          "SiteLogo": {
+            "Paths": [
+              "Site/logo.png"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

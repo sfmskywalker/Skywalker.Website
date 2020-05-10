@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <Nullable>enable</Nullable>
+        <RazorLangVersion>3.0</RazorLangVersion>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="OrchardCore.ContentManagement.Abstractions" Version="1.0.0-rc1-13104" />
+        <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-12821" />
+        <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13142" />
+        <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-12821" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="Views\Author\Index.liquid" />
+      <Content Include="Views\Author.liquid" />
+    </ItemGroup>
+    
+</Project>
