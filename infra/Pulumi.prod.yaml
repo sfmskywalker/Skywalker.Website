@@ -2,7 +2,7 @@ config:
   azure:location: WestEurope
   dockerHub:password:
     secure: AAABADL7VHOM4v7ksQxaGpPMR8uMOfdKWUNO/n57WDP8usI1jCUCtRNDuNCCIXI+5g32TAtFT9NHmOAje6H96kwR7pY=
-  dockerHub:server: https://index.docker.io/v1/
+  dockerHub:server: ""
   dockerHub:user: ndakota81
   gitHub:owner: sfmskywalker
   gitHub:repo: PersonalWebsite
