@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skywalker.Website", "src\Skywalker.Website\Skywalker.Website.csproj", "{7DCE46F1-8B05-4C44-924E-F64B9F78F1B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalWebsite", "src\PersonalWebsite\PersonalWebsite.csproj", "{7DCE46F1-8B05-4C44-924E-F64B9F78F1B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DFE8F5FF-C5B9-46FE-B610-2EF054346054}"
 EndProject
@@ -20,6 +20,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skywalker.OrchardCore.ContentExtensions", "src\Modules\Skywalker.OrchardCore.ContentExtensions\Skywalker.OrchardCore.ContentExtensions.csproj", "{6A1EDAA4-EBA6-4456-BAD9-FA52E89C142A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skywalker.OrchardCore.Gravatar", "src\Modules\Skywalker.OrchardCore.Gravatar\Skywalker.OrchardCore.Gravatar.csproj", "{F20122C6-EE8B-412E-AC7B-1929127E8935}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{31AD19F0-81D7-4BB1-965F-18FF2436632E}"
+ProjectSection(SolutionItems) = preProject
+	.github\workflows\deploy-website.yml = .github\workflows\deploy-website.yml
+	Dockerfile = Dockerfile
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

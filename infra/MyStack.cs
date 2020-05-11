@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Pulumi;
 using Pulumi.Azure.AppService;
 using Pulumi.Azure.AppService.Inputs;
@@ -117,6 +118,18 @@ namespace Skywalker.Website.Infra
             RegistryUser = registry.AdminUsername;
             RegistryPassword = registry.AdminPassword;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
+            
+            // Push secrets to GitHub.
+            var variablePrefix = env.ToUpperInvariant();
+            var gitHubVariables = new GitHubVariables("github-variables", new GitHubVariablesArgs
+            {
+                Variables = new Dictionary<string, Input<string>>
+                {
+                    [$"{variablePrefix}_DOCKER_REGISTRY"] = RegistryServer,
+                    [$"{variablePrefix}_DOCKER_USER"] = RegistryUser,
+                    [$"{variablePrefix}_DOCKER_PASSWORD"] = RegistryPassword
+                }
+            });
         }
 
         [Output] public Output<string> StorageConnectionString { get; set; }

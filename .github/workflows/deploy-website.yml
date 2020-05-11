@@ -1,4 +1,4 @@
-name: .NET Core
+name: Deploy
 
 on:
   push:
@@ -11,11 +11,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Docker Login
+      uses: Azure/docker-login@v1
       with:
-        dotnet-version: 3.1.102
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+        username: ${{ secrets.PROD_DOCKER_USER }}
+        password: ${{ secrets.PROD_DOCKER_PASSWORD }}
+        login-server: https://${{ secrets.PROD_DOCKER_REGISTRY }}
+
+    - name: Build Docker Image
+      working-directory: ./
+      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REGISTRY }}/personal-website:latest .
+
+    - name: Push Image
+      working-directory: ./ 
+      run: docker push ${{ secrets.PROD_DOCKER_REGISTRY }}/personal-website:latest
