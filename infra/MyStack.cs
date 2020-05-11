@@ -86,6 +86,7 @@ namespace Skywalker.Website.Infra
             var dockerHubConfig = new Config("dockerHub");
             var dockerHubRegistry = dockerHubConfig.Require("server");
             var dockerHubUser = dockerHubConfig.Require("user");
+            var dockerHubRepo = dockerHubUser;
             var dockerHubPassword = dockerHubConfig.RequireSecret("password");
 
             // Create an app service.
@@ -97,7 +98,7 @@ namespace Skywalker.Website.Infra
                 {
                     ["WEBSITES_ENABLE_APP_SERVICE_STORAGE"] = "false",
                     ["WEBSITE_HTTPLOGGING_RETENTION_DAYS"] = "1",
-                    ["DOCKER_REGISTRY_SERVER_URL"] = $"https://{dockerHubRegistry}",
+                    ["DOCKER_REGISTRY_SERVER_URL"] = dockerHubRegistry,
                     ["DOCKER_REGISTRY_SERVER_USERNAME"] = dockerHubUser,
                     ["DOCKER_REGISTRY_SERVER_PASSWORD"] = dockerHubPassword,
                     ["DOCKER_ENABLE_CI"] = "true",
@@ -112,7 +113,7 @@ namespace Skywalker.Website.Infra
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
                     AlwaysOn = true,
-                    LinuxFxVersion = $"DOCKER|{dockerHubRegistry}/orchard-core-medium-blog:latest",
+                    LinuxFxVersion = $"DOCKER|{dockerHubRepo}/orchard-core-medium-blog:latest",
                 },
                 HttpsOnly = true
             });
