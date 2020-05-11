@@ -20,8 +20,8 @@ jobs:
 
     - name: Build Docker Image
       working-directory: ./
-      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REGISTRY }}/personal-website:latest .
+      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REGISTRY }}/orchard-core-medium-blog:latest .
 
     - name: Push Image
       working-directory: ./ 
-      run: docker push ${{ secrets.PROD_DOCKER_REGISTRY }}/personal-website:latest
+      run: docker push ${{ secrets.PROD_DOCKER_REGISTRY }}/orchard-core-medium-blog:latest

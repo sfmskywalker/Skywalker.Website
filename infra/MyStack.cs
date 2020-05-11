@@ -29,12 +29,12 @@ namespace Skywalker.Website.Infra
             });
 
             // Create a container registry.
-            var registry = new Registry("registry", new RegistryArgs
-            {
-                ResourceGroupName = resourceGroup.Name,
-                Sku = "Basic",
-                AdminEnabled = true
-            });
+            // var registry = new Registry("registry", new RegistryArgs
+            // {
+            //     ResourceGroupName = resourceGroup.Name,
+            //     Sku = "Basic",
+            //     AdminEnabled = true
+            // });
 
             // Create a username for SQL Server.
             var sqlUserName = "skywalker-admin";
@@ -82,6 +82,11 @@ namespace Skywalker.Website.Infra
                     Size = "B1"
                 }
             });
+            
+            var dockerHubConfig = new Config("dockerHub");
+            var dockerHubRegistry = dockerHubConfig.Require("server");
+            var dockerHubUser = dockerHubConfig.Require("user");
+            var dockerHubPassword = dockerHubConfig.RequireSecret("password");
 
             // Create an app service.
             var appService = new AppService($"skywalker-website", new AppServiceArgs
@@ -92,9 +97,9 @@ namespace Skywalker.Website.Infra
                 {
                     ["WEBSITES_ENABLE_APP_SERVICE_STORAGE"] = "false",
                     ["WEBSITE_HTTPLOGGING_RETENTION_DAYS"] = "1",
-                    ["DOCKER_REGISTRY_SERVER_URL"] = registry.LoginServer.Apply(x => $"https://{x}"),
-                    ["DOCKER_REGISTRY_SERVER_USERNAME"] = registry.AdminUsername,
-                    ["DOCKER_REGISTRY_SERVER_PASSWORD"] = registry.AdminPassword,
+                    ["DOCKER_REGISTRY_SERVER_URL"] = $"https://{dockerHubRegistry}",
+                    ["DOCKER_REGISTRY_SERVER_USERNAME"] = dockerHubUser,
+                    ["DOCKER_REGISTRY_SERVER_PASSWORD"] = dockerHubPassword,
                     ["DOCKER_ENABLE_CI"] = "true",
                     ["WEBSITES_PORT"] = "80"
                 },
@@ -107,16 +112,16 @@ namespace Skywalker.Website.Infra
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
                     AlwaysOn = true,
-                    LinuxFxVersion = registry.LoginServer.Apply(x => $"DOCKER|{x}/personal-website:latest"),
+                    LinuxFxVersion = $"DOCKER|{dockerHubRegistry}/orchard-core-medium-blog:latest",
                 },
                 HttpsOnly = true
             });
 
             StorageConnectionString = storageAccount.PrimaryConnectionString;
             DatabaseConnectionString = dbConnectionString;
-            RegistryServer = registry.LoginServer;
-            RegistryUser = registry.AdminUsername;
-            RegistryPassword = registry.AdminPassword;
+            RegistryServer = Output.Create(dockerHubRegistry);
+            RegistryUser = Output.Create(dockerHubUser);
+            RegistryPassword = dockerHubPassword;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
             
             // Push secrets to GitHub.
