@@ -120,6 +120,7 @@ namespace Skywalker.Website.Infra
             StorageConnectionString = storageAccount.PrimaryConnectionString;
             DatabaseConnectionString = dbConnectionString;
             RegistryServer = Output.Create(dockerHubRegistry);
+            RegistryRepo = Output.Create(dockerHubUser);
             RegistryUser = Output.Create(dockerHubUser);
             RegistryPassword = dockerHubPassword;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
@@ -131,6 +132,7 @@ namespace Skywalker.Website.Infra
                 Variables = new Dictionary<string, Input<string>>
                 {
                     [$"{variablePrefix}_DOCKER_REGISTRY"] = RegistryServer,
+                    [$"{variablePrefix}_DOCKER_REPO"] = RegistryRepo,
                     [$"{variablePrefix}_DOCKER_USER"] = RegistryUser,
                     [$"{variablePrefix}_DOCKER_PASSWORD"] = RegistryPassword
                 }
@@ -140,6 +142,7 @@ namespace Skywalker.Website.Infra
         [Output] public Output<string> StorageConnectionString { get; set; }
         [Output] public Output<string> DatabaseConnectionString { get; set; }
         [Output] public Output<string> RegistryServer { get; set; }
+        [Output] public Output<string> RegistryRepo { get; set; }
         [Output] public Output<string> RegistryUser { get; set; }
         [Output] public Output<string> RegistryPassword { get; set; }
         [Output] public Output<string> WebsiteUrl { get; set; }

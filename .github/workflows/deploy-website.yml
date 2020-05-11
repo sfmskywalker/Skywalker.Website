@@ -17,11 +17,12 @@ jobs:
         username: ${{ secrets.PROD_DOCKER_USER }}
         password: ${{ secrets.PROD_DOCKER_PASSWORD }}
         login-server: https://${{ secrets.PROD_DOCKER_REGISTRY }}
+        repo: ${{ secrets.PROD_DOCKER_REPO }}
 
     - name: Build Docker Image
       working-directory: ./
-      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REGISTRY }}/orchard-core-medium-blog:latest .
+      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REPO }}/orchard-core-medium-blog:latest .
 
     - name: Push Image
       working-directory: ./ 
-      run: docker push ${{ secrets.PROD_DOCKER_REGISTRY }}/orchard-core-medium-blog:latest
+      run: docker push ${{ secrets.PROD_DOCKER_REPO }}/orchard-core-medium-blog:latest
