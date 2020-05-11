@@ -1,2 +1,6 @@
 config:
   azure:location: WestEurope
+  gitHub:owner: sfmskywalker
+  gitHub:repo: PersonalWebsite
+  gitHub:token:
+    secure: AAABAJakkd4RIs7GECGT8ZMaJUDoXX9CKCYmmlQyNQAneEYUD/JMoYkrDFKfLyzD37ChEEM16Kg+wKtGL8BzqGHX0gfWDd+s

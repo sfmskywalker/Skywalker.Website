@@ -107,7 +107,7 @@ namespace Skywalker.Website.Infra
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
                     AlwaysOn = true,
-                    LinuxFxVersion = registry.LoginServer.Apply(x => $"DOCKER|{x}/skywalker-website:latest"),
+                    LinuxFxVersion = registry.LoginServer.Apply(x => $"DOCKER|{x}/personal-website:latest"),
                 },
                 HttpsOnly = true
             });
