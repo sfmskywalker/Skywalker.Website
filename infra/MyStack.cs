@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Pulumi;
 using Pulumi.Azure.AppService;
 using Pulumi.Azure.AppService.Inputs;
+using Pulumi.Azure.Authorization;
 using Pulumi.Azure.ContainerService;
 using Pulumi.Azure.Core;
 using Pulumi.Azure.Sql;
@@ -135,14 +136,25 @@ namespace Skywalker.Website.Infra
             var adApp = new Application("skywalker-website");
 
             var adSp = new ServicePrincipal(
-                $"{appName}-sp",
-                new ServicePrincipalArgs {ApplicationId = adApp.ApplicationId});
+                "skywalker-sp",
+                new ServicePrincipalArgs
+                {
+                    ApplicationId = adApp.ApplicationId,
+                });
 
-            var adSpPassword = new ServicePrincipalPassword($"{appName}-sp-pwd", new ServicePrincipalPasswordArgs
+            var adSpPassword = new ServicePrincipalPassword("skywalker-sp-pwd", new ServicePrincipalPasswordArgs
             {
                 ServicePrincipalId = adSp.Id,
                 Value = "!Test1234",
                 EndDate = "2099-01-01T00:00:00Z",
+            });
+
+            // Grant networking permissions to the SP (needed e.g. to provision Load Balancers).
+            var assignment = new Assignment("skywalker-sp-role-assignment", new AssignmentArgs
+            {
+                PrincipalId = adSp.Id,
+                Scope = resourceGroup.Id,
+                RoleDefinitionName = "Owner"
             });
 
             var azureCredentials = Output.Tuple(
