@@ -496,6 +496,22 @@
                 },
                 "TaxonomyFieldTagsEditorSettings": {}
               }
+            },
+            {
+              "FieldName": "ContentPickerField",
+              "Name": "RelatedPosts",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Related Posts"
+                },
+                "ContentPickerFieldSettings": {
+                  "Multiple": true,
+                  "DisplayedContentTypes": [
+                    "BlogPost"
+                  ]
+                },
+                "ContentIndexSettings": {}
+              }
             }
           ]
         },
@@ -1274,7 +1290,7 @@
         "MediumThemeSettings": {
           "SiteLogo": {
             "Paths": [
-              "Site/logo.png"
+              "site/logo.png"
             ]
           }
         }

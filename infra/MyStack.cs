@@ -106,6 +106,17 @@ namespace Skywalker.Website.Infra
                     Type = "SQLAzure",
                     Value = dbConnectionString,
                 },
+                Logs = new AppServiceLogsArgs
+                {
+                  HttpLogs = new AppServiceLogsHttpLogsArgs
+                  {
+                      FileSystem = new AppServiceLogsHttpLogsFileSystemArgs
+                      {
+                          RetentionInDays = 1,
+                          RetentionInMb = 35
+                      }
+                  }
+                },
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
                     AlwaysOn = true,
