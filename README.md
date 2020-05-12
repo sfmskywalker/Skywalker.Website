@@ -33,3 +33,5 @@ An Orchard Core theme based on the [Mediumish](https://www.themepush.com/freethe
     - Azure Container Registry
     - Push secrets to GitHub (for GitHub Actions)
 * GitHub Actions to build & push Docker container
+
+Test
