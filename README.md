@@ -1,6 +1,8 @@
-# TheMediumTheme
+# The Medium Theme
 
 An Orchard Core theme based on the Mediumish theme from Wow Themes.
+
+GitHub: https://github.com/sfmskywalker/Skywalker.Website
 
 ## Features
 
