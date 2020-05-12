@@ -26,3 +26,8 @@ jobs:
     - name: Push Image
       working-directory: ./ 
       run: docker push ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:latest
+      
+    - uses: azure/webapps-container-deploy@v1
+      with:
+        app-name: '${{ secrets.PROD_APP_NAME }}'
+        images: '${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:${{ github.sha }}'

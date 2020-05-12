@@ -94,7 +94,7 @@ namespace Skywalker.Website.Infra
                     ["DOCKER_REGISTRY_SERVER_URL"] = registry.LoginServer.Apply(x => $"https://{x}"),
                     ["DOCKER_REGISTRY_SERVER_USERNAME"] = registry.AdminUsername,
                     ["DOCKER_REGISTRY_SERVER_PASSWORD"] = registry.AdminPassword,
-                    ["DOCKER_ENABLE_CI"] = "true",
+                    ["DOCKER_ENABLE_CI"] = "false",
                     ["WEBSITES_PORT"] = "80",
                     ["ORCHARDCORE__ORCHARDCORE_DATAPROTECTION_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
                     ["ORCHARDCORE__ORCHARDCORE_MEDIA_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
@@ -131,6 +131,7 @@ namespace Skywalker.Website.Infra
             RegistryRepo = registry.LoginServer;
             RegistryUser = registry.AdminUsername;
             RegistryPassword = registry.AdminPassword;
+            AppName = appService.Name;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
             
             // Push secrets to GitHub.
@@ -142,7 +143,8 @@ namespace Skywalker.Website.Infra
                     [$"{variablePrefix}_DOCKER_REGISTRY"] = RegistryServer,
                     [$"{variablePrefix}_DOCKER_REPO"] = RegistryRepo,
                     [$"{variablePrefix}_DOCKER_USER"] = RegistryUser,
-                    [$"{variablePrefix}_DOCKER_PASSWORD"] = RegistryPassword
+                    [$"{variablePrefix}_DOCKER_PASSWORD"] = RegistryPassword,
+                    [$"{variablePrefix}_APP_NAME"] = AppName
                 }
             });
         }
@@ -153,6 +155,7 @@ namespace Skywalker.Website.Infra
         [Output] public Output<string> RegistryRepo { get; set; }
         [Output] public Output<string> RegistryUser { get; set; }
         [Output] public Output<string> RegistryPassword { get; set; }
+        [Output] public Output<string> AppName { get; set; }
         [Output] public Output<string> WebsiteUrl { get; set; }
     }
 }
