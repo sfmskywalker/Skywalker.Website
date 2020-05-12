@@ -13,9 +13,9 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.PROD_AZURE_CREDENTIALS }}
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.PROD_AZURE_CREDENTIALS }}
     
     - name: Docker Login
       uses: Azure/docker-login@v1
