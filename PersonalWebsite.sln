@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalWebsite", "src\PersonalWebsite\PersonalWebsite.csproj", "{7DCE46F1-8B05-4C44-924E-F64B9F78F1B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skywalker.Website", "src\Skywalker.Website\Skywalker.Website.csproj", "{7DCE46F1-8B05-4C44-924E-F64B9F78F1B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DFE8F5FF-C5B9-46FE-B610-2EF054346054}"
 EndProject

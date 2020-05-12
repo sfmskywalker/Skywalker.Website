@@ -15,7 +15,6 @@ namespace Skywalker.Website.Infra
         public MyStack()
         {
             var env = Deployment.Instance.StackName;
-            var config = new Config();
 
             // Create an Azure Resource Group
             var resourceGroup = new ResourceGroup($"{env}-skywalker-website");
@@ -29,12 +28,12 @@ namespace Skywalker.Website.Infra
             });
 
             // Create a container registry.
-            // var registry = new Registry("registry", new RegistryArgs
-            // {
-            //     ResourceGroupName = resourceGroup.Name,
-            //     Sku = "Basic",
-            //     AdminEnabled = true
-            // });
+            var registry = new Registry("registry", new RegistryArgs
+            {
+                ResourceGroupName = resourceGroup.Name,
+                Sku = "Basic",
+                AdminEnabled = true
+            });
 
             // Create a username for SQL Server.
             var sqlUserName = "skywalker-admin";
@@ -83,12 +82,6 @@ namespace Skywalker.Website.Infra
                 }
             });
             
-            var dockerHubConfig = new Config("dockerHub");
-            var dockerHubRegistry = dockerHubConfig.Require("server");
-            var dockerHubUser = dockerHubConfig.Require("user");
-            var dockerHubRepo = dockerHubUser;
-            var dockerHubPassword = dockerHubConfig.RequireSecret("password");
-
             // Create an app service.
             var appService = new AppService($"skywalker-website", new AppServiceArgs
             {
@@ -98,11 +91,14 @@ namespace Skywalker.Website.Infra
                 {
                     ["WEBSITES_ENABLE_APP_SERVICE_STORAGE"] = "false",
                     ["WEBSITE_HTTPLOGGING_RETENTION_DAYS"] = "1",
-                    ["DOCKER_REGISTRY_SERVER_URL"] = dockerHubRegistry,
-                    ["DOCKER_REGISTRY_SERVER_USERNAME"] = dockerHubUser,
-                    ["DOCKER_REGISTRY_SERVER_PASSWORD"] = dockerHubPassword,
+                    ["DOCKER_REGISTRY_SERVER_URL"] = registry.LoginServer.Apply(x => $"https://{x}"),
+                    ["DOCKER_REGISTRY_SERVER_USERNAME"] = registry.AdminUsername,
+                    ["DOCKER_REGISTRY_SERVER_PASSWORD"] = registry.AdminPassword,
                     ["DOCKER_ENABLE_CI"] = "true",
-                    ["WEBSITES_PORT"] = "80"
+                    ["WEBSITES_PORT"] = "80",
+                    ["ORCHARDCORE__ORCHARDCORE_DATAPROTECTION_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
+                    ["ORCHARDCORE__ORCHARDCORE_MEDIA_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
+                    ["ORCHARDCORE__ORCHARDCORE_MEDIA_SHELLS__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString, 
                 },
                 ConnectionStrings = new AppServiceConnectionStringArgs
                 {
@@ -113,17 +109,17 @@ namespace Skywalker.Website.Infra
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
                     AlwaysOn = true,
-                    LinuxFxVersion = $"DOCKER|{dockerHubRepo}/orchard-core-medium-blog:latest",
+                    LinuxFxVersion = registry.LoginServer.Apply(x => $"DOCKER|{x}/skywalker-website:latest"),
                 },
                 HttpsOnly = true
             });
 
             StorageConnectionString = storageAccount.PrimaryConnectionString;
             DatabaseConnectionString = dbConnectionString;
-            RegistryServer = Output.Create(dockerHubRegistry);
-            RegistryRepo = Output.Create(dockerHubUser);
-            RegistryUser = Output.Create(dockerHubUser);
-            RegistryPassword = dockerHubPassword;
+            RegistryServer = registry.LoginServer;
+            RegistryRepo = registry.LoginServer;
+            RegistryUser = registry.AdminUsername;
+            RegistryPassword = registry.AdminPassword;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
             
             // Push secrets to GitHub.

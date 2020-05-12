@@ -2,13 +2,13 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY src/PersonalWebsite/*.csproj ./src/PersonalWebsite/
+COPY src/Skywalker.Website/*.csproj ./src/Skywalker.Website/
 COPY src/Modules/Skywalker.OrchardCore.ContentExtensions/*.csproj ./src/Modules/Skywalker.OrchardCore.ContentExtensions/
 COPY src/Modules/Skywalker.OrchardCore.Gravatar/*.csproj ./src/Modules/Skywalker.OrchardCore.Gravatar/
 COPY src/Themes/TheMediumTheme/*.csproj ./src/Themes/TheMediumTheme/
-COPY PersonalWebsite.sln ./
+COPY Skywalker.Website.sln ./
 COPY NuGet.config ./
-RUN dotnet restore ./PersonalWebsite.sln
+RUN dotnet restore ./Skywalker.Website.sln
 
 # Copy everything else and build
 COPY src ./src
@@ -25,10 +25,10 @@ RUN npm run build
 
 # Publish the solution
 WORKDIR /app
-RUN dotnet publish ./PersonalWebsite.sln -c Release -o out
+RUN dotnet publish ./Skywalker.Website.sln -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "PersonalWebsite.dll"]
+ENTRYPOINT ["dotnet", "Skywalker.Website.dll"]

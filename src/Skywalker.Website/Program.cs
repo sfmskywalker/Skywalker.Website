@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace PersonalWebsite
+namespace Skywalker.Website
 {
     public class Program
     {

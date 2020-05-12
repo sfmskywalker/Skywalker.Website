@@ -561,7 +561,7 @@
         },
         {
           "SourcePath": "Media/Site/logo.png",
-          "TargetPath": "blog/logo.png"
+          "TargetPath": "site/logo.png"
         }
       ]
     },
