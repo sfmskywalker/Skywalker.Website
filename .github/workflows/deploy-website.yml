@@ -27,11 +27,11 @@ jobs:
 
     - name: Build Docker Image
       working-directory: ./
-      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:latest .
+      run: docker build -f ./Dockerfile -t ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:latest -t ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:${{ github.sha }} .
 
     - name: Push Image
       working-directory: ./ 
-      run: docker push ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website:latest
+      run: docker push ${{ secrets.PROD_DOCKER_REPO }}/skywalker-website
       
     - uses: azure/webapps-container-deploy@v1
       with:
