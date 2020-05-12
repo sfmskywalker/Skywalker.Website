@@ -521,47 +521,47 @@
       "Files": [
         {
           "SourcePath": "Media/Blog/1.jpg",
-          "TargetPath": "Blog/1.jpg"
+          "TargetPath": "blog/1.jpg"
         },
         {
           "SourcePath": "Media/Blog/2.jpg",
-          "TargetPath": "Blog/2.jpg"
+          "TargetPath": "blog/2.jpg"
         },
         {
           "SourcePath": "Media/Blog/3.jpg",
-          "TargetPath": "Blog/3.jpg"
+          "TargetPath": "blog/3.jpg"
         },
         {
           "SourcePath": "Media/Blog/4.jpg",
-          "TargetPath": "Blog/4.jpg"
+          "TargetPath": "blog/4.jpg"
         },
         {
           "SourcePath": "Media/Blog/5.jpg",
-          "TargetPath": "Blog/5.jpg"
+          "TargetPath": "blog/5.jpg"
         },
         {
           "SourcePath": "Media/Blog/6.jpg",
-          "TargetPath": "Blog/6.jpg"
+          "TargetPath": "blog/6.jpg"
         },
         {
           "SourcePath": "Media/Blog/7.jpg",
-          "TargetPath": "Blog/7.jpg"
+          "TargetPath": "blog/7.jpg"
         },
         {
           "SourcePath": "Media/Blog/8.jpg",
-          "TargetPath": "Blog/8.jpg"
+          "TargetPath": "blog/8.jpg"
         },
         {
           "SourcePath": "Media/Blog/9.jpg",
-          "TargetPath": "Blog/9.jpg"
+          "TargetPath": "blog/9.jpg"
         },
         {
           "SourcePath": "Media/Blog/10.jpg",
-          "TargetPath": "Blog/10.jpg"
+          "TargetPath": "blog/10.jpg"
         },
         {
           "SourcePath": "Media/Site/logo.png",
-          "TargetPath": "Site/logo.png"
+          "TargetPath": "blog/logo.png"
         }
       ]
     },
