@@ -1,11 +1,11 @@
 # The Medium Theme
 
-An Orchard Core theme based on the Mediumish theme from Wow Themes.
+An Orchard Core theme based on the [Mediumish](https://www.themepush.com/freethemes/mediumish/index.html) theme from [Wow Themes](https://www.wowthemes.net/).
 
 ## Features
 
 * Blog
-	- "Read time" liquid filter
+	- "Read time" liquid filter (e.g. "6 min read")
 * Tags
 * Search
 * Site Logo
@@ -18,7 +18,18 @@ An Orchard Core theme based on the Mediumish theme from Wow Themes.
 ## Roadmap
 
 * Comments
-* More configurability options (e.g. footer copy right, )
+* More configurability options (e.g. footer copy right notice)
 * Forms (e.g. contact form)
-* Widgets & Flows (right now everything is liquid-based using LiquidPage)
-* Tag Cloud
+* Widgets & Flows (currently everything is liquid-based using LiquidPage)
+* Tag cloud
+
+# Infrastructure
+
+* Pulumi:
+    - Azure App Service Plan
+    - Azure App Service
+    - Azure Storage Account
+    - Azure SQL Server
+    - Azure Container Registry
+    - Push secrets to GitHub (for GitHub Actions)
+* GitHub Actions to build & push Docker container

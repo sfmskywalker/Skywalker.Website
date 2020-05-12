@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Pulumi;
 using Sodium;
 
 namespace Skywalker.Website.Infra
@@ -12,20 +11,16 @@ namespace Skywalker.Website.Infra
     {
         private readonly string _owner;
         private readonly string _repo;
-        private readonly string _token;
         private readonly HttpClient _httpClient;
 
         public GitHubClient(string owner, string repo, string token)
         {
             _owner = owner;
             _repo = repo;
-            _token = token;
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://api.github.com")
             };
-
-            //var token = _config.Require("token");
 
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 MediaTypeWithQualityHeaderValue.Parse("application/vnd.github.v3+json"));
@@ -35,8 +30,6 @@ namespace Skywalker.Website.Infra
 
         public async Task SetSecretAsync(string name, string value)
         {
-            // var owner = _config.Require("owner");
-            // var repo = _config.Require("repo");
             var owner = _owner;
             var repo = _repo;
             var publicKeyResponse = await _httpClient.GetAsync($"repos/{owner}/{repo}/actions/secrets/public-key");

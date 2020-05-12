@@ -1,0 +1,4 @@
+config:
+  azure:location: WestEurope
+  gitHub:owner: sfmskywalker
+  gitHub:repo: Skywalker.Website

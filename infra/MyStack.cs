@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Pulumi;
 using Pulumi.Azure.AppService;
 using Pulumi.Azure.AppService.Inputs;
@@ -6,6 +7,7 @@ using Pulumi.Azure.ContainerService;
 using Pulumi.Azure.Core;
 using Pulumi.Azure.Sql;
 using Pulumi.Azure.Storage;
+using Pulumi.AzureAD;
 using Pulumi.Random;
 
 namespace Skywalker.Website.Infra
@@ -81,7 +83,7 @@ namespace Skywalker.Website.Infra
                     Size = "B1"
                 }
             });
-            
+
             // Create an app service.
             var appService = new AppService($"skywalker-website", new AppServiceArgs
             {
@@ -96,9 +98,11 @@ namespace Skywalker.Website.Infra
                     ["DOCKER_REGISTRY_SERVER_PASSWORD"] = registry.AdminPassword,
                     ["DOCKER_ENABLE_CI"] = "false",
                     ["WEBSITES_PORT"] = "80",
-                    ["ORCHARDCORE__ORCHARDCORE_DATAPROTECTION_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
+                    ["ORCHARDCORE__ORCHARDCORE_DATAPROTECTION_AZURE__CONNECTIONSTRING"] =
+                        storageAccount.PrimaryConnectionString,
                     ["ORCHARDCORE__ORCHARDCORE_MEDIA_AZURE__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString,
-                    ["ORCHARDCORE__ORCHARDCORE_MEDIA_SHELLS__CONNECTIONSTRING"] = storageAccount.PrimaryConnectionString, 
+                    ["ORCHARDCORE__ORCHARDCORE_MEDIA_SHELLS__CONNECTIONSTRING"] =
+                        storageAccount.PrimaryConnectionString,
                 },
                 ConnectionStrings = new AppServiceConnectionStringArgs
                 {
@@ -108,14 +112,14 @@ namespace Skywalker.Website.Infra
                 },
                 Logs = new AppServiceLogsArgs
                 {
-                  HttpLogs = new AppServiceLogsHttpLogsArgs
-                  {
-                      FileSystem = new AppServiceLogsHttpLogsFileSystemArgs
-                      {
-                          RetentionInDays = 1,
-                          RetentionInMb = 35
-                      }
-                  }
+                    HttpLogs = new AppServiceLogsHttpLogsArgs
+                    {
+                        FileSystem = new AppServiceLogsHttpLogsFileSystemArgs
+                        {
+                            RetentionInDays = 1,
+                            RetentionInMb = 35
+                        }
+                    }
                 },
                 SiteConfig = new AppServiceSiteConfigArgs
                 {
@@ -125,15 +129,54 @@ namespace Skywalker.Website.Infra
                 HttpsOnly = true
             });
 
+            var appName = appService.Name;
+
+            // Create a service principal for GitHub Actions to interact with the App Service.
+            var adApp = new Application("skywalker-website");
+
+            var adSp = new ServicePrincipal(
+                $"{appName}-sp",
+                new ServicePrincipalArgs {ApplicationId = adApp.ApplicationId});
+
+            var adSpPassword = new ServicePrincipalPassword($"{appName}-sp-pwd", new ServicePrincipalPasswordArgs
+            {
+                ServicePrincipalId = adSp.Id,
+                Value = new RandomPassword("app-password", new RandomPasswordArgs
+                {
+                    Length = 20,
+                    Special = true,
+                }).Result,
+                EndDate = "2099-01-01T00:00:00Z",
+            });
+
+            var azureCredentials = Output.Tuple(
+                    adApp.ApplicationId,
+                    adSpPassword.Value)
+                .Apply(x =>
+                {
+                    var currentSubscription = GetSubscription.InvokeAsync().Result;
+
+                    var model = new
+                    {
+                        clientId = x.Item1,
+                        clientSecret = x.Item2,
+                        subscriptionId = currentSubscription.SubscriptionId,
+                        tenantId = currentSubscription.TenantId,
+                    };
+
+                    return JsonConvert.SerializeObject(model);
+                });
+
             StorageConnectionString = storageAccount.PrimaryConnectionString;
             DatabaseConnectionString = dbConnectionString;
             RegistryServer = registry.LoginServer;
             RegistryRepo = registry.LoginServer;
             RegistryUser = registry.AdminUsername;
             RegistryPassword = registry.AdminPassword;
-            AppName = appService.Name;
+            AzureCredentials = azureCredentials;
+            AppName = appName;
             WebsiteUrl = appService.DefaultSiteHostname.Apply(x => $"https://{x}");
-            
+
             // Push secrets to GitHub.
             var variablePrefix = env.ToUpperInvariant();
             var gitHubVariables = new GitHubVariables("github-variables", new GitHubVariablesArgs
@@ -144,7 +187,8 @@ namespace Skywalker.Website.Infra
                     [$"{variablePrefix}_DOCKER_REPO"] = RegistryRepo,
                     [$"{variablePrefix}_DOCKER_USER"] = RegistryUser,
                     [$"{variablePrefix}_DOCKER_PASSWORD"] = RegistryPassword,
-                    [$"{variablePrefix}_APP_NAME"] = AppName
+                    [$"{variablePrefix}_APP_NAME"] = AppName,
+                    [$"{variablePrefix}_AZURE_CREDENTIALS"] = azureCredentials
                 }
             });
         }
@@ -156,6 +200,7 @@ namespace Skywalker.Website.Infra
         [Output] public Output<string> RegistryUser { get; set; }
         [Output] public Output<string> RegistryPassword { get; set; }
         [Output] public Output<string> AppName { get; set; }
+        [Output] public Output<string> AzureCredentials { get; set; }
         [Output] public Output<string> WebsiteUrl { get; set; }
     }
 }
