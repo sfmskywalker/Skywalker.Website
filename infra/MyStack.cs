@@ -141,17 +141,13 @@ namespace Skywalker.Website.Infra
             var adSpPassword = new ServicePrincipalPassword($"{appName}-sp-pwd", new ServicePrincipalPasswordArgs
             {
                 ServicePrincipalId = adSp.Id,
-                Value = new RandomPassword("app-password", new RandomPasswordArgs
-                {
-                    Length = 20,
-                    Special = true,
-                }).Result,
+                Value = "!Test1234",
                 EndDate = "2099-01-01T00:00:00Z",
             });
 
             var azureCredentials = Output.Tuple(
                     adApp.ApplicationId,
-                    adSpPassword.Value)
+                    Output.Create("!Test1234"))
                 .Apply(x =>
                 {
                     var currentSubscription = GetSubscription.InvokeAsync().Result;
