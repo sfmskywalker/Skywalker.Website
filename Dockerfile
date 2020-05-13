@@ -29,6 +29,14 @@ RUN dotnet publish ./Skywalker.Website.sln -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+
+# ------------------------
+# SSH Server support
+# ------------------------
+RUN apt-get update \ 
+  && apt-get install -y --no-install-recommends openssh-server \
+  && echo "root:Docker!" | chpasswd
+
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Skywalker.Website.dll"]
