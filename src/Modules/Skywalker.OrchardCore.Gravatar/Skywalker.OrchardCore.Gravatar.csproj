@@ -9,9 +9,9 @@
 
     <ItemGroup>
         <PackageReference Include="GravatarHelper.NetStandard" Version="1.0.0" />
-        <PackageReference Include="OrchardCore.Liquid" Version="1.0.0-rc1-13183" />
-        <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13183" />
-        <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-13183" />
+        <PackageReference Include="OrchardCore.Liquid" Version="1.0.0-rc1-13190" />
+        <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13190" />
+        <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-13190" />
     </ItemGroup>
 
 </Project>

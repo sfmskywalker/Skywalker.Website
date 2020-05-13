@@ -12,25 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="GravatarHelper.NetStandard" Version="1.0.0" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13183" />
-    <PackageReference Include="OrchardCore.ResourceManagement.Abstractions" Version="1.0.0-rc1-13183" />
-    <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc1-13183" />
-    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-13183" />
-    <PackageReference Include="OrchardCore.Menu" Version="1.0.0-rc1-13183" />
-    <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-13183" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Views\SiteLogo.liquid">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\BlogPost-CardBlock.liquid">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Recipes\Media\Site" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13190" />
+    <PackageReference Include="OrchardCore.ResourceManagement.Abstractions" Version="1.0.0-rc1-13190" />
+    <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc1-13190" />
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-13190" />
+    <PackageReference Include="OrchardCore.Menu" Version="1.0.0-rc1-13190" />
+    <PackageReference Include="OrchardCore.Users.Core" Version="1.0.0-rc1-13190" />
   </ItemGroup>
 
 </Project>
