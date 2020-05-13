@@ -38,5 +38,6 @@ RUN apt-get update \
   && echo "root:Docker!" | chpasswd
 
 WORKDIR /app
+EXPOSE 80 2222
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Skywalker.Website.dll"]
