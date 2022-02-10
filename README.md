@@ -2,6 +2,8 @@
 
 An Orchard Core theme based on the [Mediumish](https://www.themepush.com/freethemes/mediumish/index.html) theme from [Wow Themes](https://www.wowthemes.net/).
 
+Demo: https://www.youtube.com/watch?v=OI_TmVE3Rj0
+
 ## Features
 
 * Blog
